@@ -1,0 +1,8 @@
+{
+    "use": ["autoprefixer", "cssnano"],
+    "input": "public/css/app.css",
+    "output": "public/css/app.min.css",
+    "autoprefixer": {
+        "browsers": "> 5%"
+    }
+}
