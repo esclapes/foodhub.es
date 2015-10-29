@@ -1,7 +1,12 @@
 @extends('layouts.default')
 
 @section('content')
-	<h1>Crear un pedido</h1>
-	<hr>
-	<a href="/orders/create" class="btn btn-primary">Crear pedido</a>
+	@if(Auth::check())
+		<h2>Tus pedidos</h2>
+		@each('orders.summaryItem', Auth::user()->orders, 'order', 'orders.summaryEmpty')
+		{!! dump(Auth::user()->orders)  !!}
+	@else
+		@include('auth.login')
+	@endif
+
 @stop

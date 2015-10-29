@@ -1,7 +1,19 @@
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
 body {
-  padding-top: 70px;
+  //padding-top: 70px;
+}
+
+a .panel:hover {
+  @include panel-variant($panel-primary-border, $panel-primary-text, $panel-primary-heading-bg, $panel-primary-border);
+}
+
+.no-underline {
+  text-decoration: none !important;
+}
+
+.row--spaced {
+  margin: 0 0 1em 0;
 }
 
 

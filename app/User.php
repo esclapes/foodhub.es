@@ -32,4 +32,29 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+
+    /**
+     * The orders that belong to the user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    /**
+     * The products that belong to the user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    public function orderShares(){
+        return $this->hasMany(OrderShare::class);
+    }
 }

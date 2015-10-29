@@ -24,5 +24,11 @@
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
+        <env name="DB_CONNECTION" value="mysql"/>
+        <env name="APP_HOST" value="http://foodhub.local"/>
+        <env name="DB_HOST" value="127.0.0.1"/>
+        <env name="DB_PORT" value="33060"/>
+        <env name="DB_USERNAME" value="homestead"/>
+        <env name="DB_PASSWORD" value="secret"/>
     </php>
 </phpunit>

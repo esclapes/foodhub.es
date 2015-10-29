@@ -1,11 +1,11 @@
+/*jshint browserify: true */
 'use strict';
 
-require('angular'),
+require('angular');
 require('angular-ui-bootstrap');
  
-angular.module('FoodHub', ['ui.bootstrap']);
-
 angular
-    .module('FoodHub')
-    .controller('NewOrderController', require('./controllers/NewOrderController.js'));
-    
+    .module('foodHub', [
+        //'ui.bootstrap',
+        require('./basket').name
+    ]);

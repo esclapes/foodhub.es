@@ -3,6 +3,7 @@
   "devDependencies": {
     "angular-mocks": "^1.4.3",
     "autoprefixer": "^5.2.0",
+    "browser-sync": "^2.9.11",
     "browserify": "latest",
     "cssnano": "^2.1.1",
     "eslint": "^1.0.0",
@@ -18,8 +19,7 @@
     "parallelshell": "latest",
     "phantomjs": "^1.9.17",
     "rimraf": "latest",
-    "watch": "latest",
-    "live-reload": "latest"
+    "watch": "latest"
   },
   "dependencies": {
     "angular": "^1.4.3",
@@ -31,16 +31,15 @@
     "lint": "eslint resources/assets/js/**/*.js",
     "karma": "karma start",
     "test": "./vendor/bin/phpspec run && ./vendor/bin/phpunit",
-    "test:watch": "watch 'npm run -s test' app",
+    "test:watch": "watch 'npm run -s test' app tests",
     "build:css": "node-sass resources/assets/sass/app.scss -o public/css --source-map public/css/app.css.map",
     "preoptimize:css": "npm run -s build:css",
     "optimize:css": "postcss --config postcss.config.json",
     "prebuild:js": "npm run lint",
     "build:js": "browserify resources/assets/js/app/app.js > public/js/bundle.js",
-    "prebuild": "npm run clean",
     "build": "npm run build:css && npm run build:js",
     "build:watch": "watch 'npm run -s build' resources/assets",
-    "live-reload": "live-reload --port 9091 dist/",
-    "dev": "parallelshell 'npm run live-reload -s' 'npm run test:watch -s' 'npm run build:watch -s'"
+    "bsync": "browser-sync start --proxy \"foodhub.local\" --files \"public/**/*, app/**/*, resources/views/**/*\"",
+    "dev": "parallelshell -v 'npm run bsync' 'npm run test:watch' 'npm run build:watch'"
   }
 }

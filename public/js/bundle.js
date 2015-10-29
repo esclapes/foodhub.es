@@ -1,17 +1,8 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-'use strict';
-
-require('angular'), require('angular-ui-bootstrap');
-
-angular.module('FoodHub', ['ui.bootstrap']);
-
-angular.module('FoodHub').controller('NewOrderController', require('./controllers/NewOrderController.js'));
-
-},{"./controllers/NewOrderController.js":6,"angular":5,"angular-ui-bootstrap":2}],2:[function(require,module,exports){
 require('./ui-bootstrap-tpls.js');
 module.exports = 'ui.bootstrap';
 
-},{"./ui-bootstrap-tpls.js":3}],3:[function(require,module,exports){
+},{"./ui-bootstrap-tpls.js":2}],2:[function(require,module,exports){
 /*
  * angular-ui-bootstrap
  * http://angular-ui.github.io/bootstrap/
@@ -5157,7 +5148,7 @@ angular.module("template/typeahead/typeahead-popup.html", []).run(["$templateCac
     "");
 }]);
 !angular.$$csp() && angular.element(document).find('head').prepend('<style type="text/css">.ng-animate.item:not(.left):not(.right){-webkit-transition:0s ease-in-out left;transition:0s ease-in-out left}</style>');
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.3
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -33522,98 +33513,35 @@ var minlengthDirective = function() {
 })(window, document);
 
 !window.angular.$$csp() && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":4}],6:[function(require,module,exports){
+},{"./angular":3}],5:[function(require,module,exports){
+/*jshint browserify: true */
 'use strict';
 
-NewOrderController.$inject = ['$scope', '$log'];
-
-function NewOrderController($scope, $log) {
-
+require('angular');
+require('angular-ui-bootstrap');
+ 
+angular
+    .module('foodHub', [
+        //'ui.bootstrap',
+        require('./basket').name
+    ]);
+},{"./basket":7,"angular":4,"angular-ui-bootstrap":1}],6:[function(require,module,exports){
+module.exports = function() {
     var vm = this;
+    vm.title = 'Customers';
+    vm.customers = [
+        {name: 'Haley'}, {name: 'Ella'}, {name: 'Landon'}, {name: 'John'}
+    ];
+}
+},{}],7:[function(require,module,exports){
+'use strict';
 
-    vm.title = "Testing...";
-    vm.date = null;
-    vm.initDate = null;
-    vm.today = today;
-    vm.opened = false;
-    vm.clear = clear;
-    vm.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-    vm.format = vm.formats[1];
-    vm.dateOptions = {
-        formatYear: 'yy',
-        startingDay: 1
-    };
-    vm.events = events;
-    vm.getDayClass = getDayClass;
-    vm.disable = disable;
-    vm.open = open;
-
-    activate();
-
-    //////////////
-
-    function activate() {
-        today();
-        toggleMin();
-    }
-
-    function today() {
-        vm.date = vm.initDate = new Date();
-    };
-
-    // Disable weekend selection
-    function disable(date, mode) {
-        return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
-    };
-
-    function toggleMin() {
-        vm.minDate = vm.minDate ? null : new Date();
-    };
-
-    function clear() {
-        vm.date = null;
-    };
-
-    function open($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
-
-        vm.opened = true;
-    };
-
-    var tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    var afterTomorrow = new Date();
-    afterTomorrow.setDate(tomorrow.getDate() + 2);
-    var events = [{
-        date: tomorrow,
-        status: 'full'
-    }, {
-        date: afterTomorrow,
-        status: 'partially'
-    }];
-
-    function getDayClass(date, mode) {
-        if (mode === 'day') {
-            var dayToCheck = new Date(date).setHours(0, 0, 0, 0);
-
-            for (var i = 0; i < vm.events.length; i++) {
-                var currentDay = new Date(vm.events[i].date).setHours(0, 0, 0, 0);
-
-                if (dayToCheck === currentDay) {
-                    return vm.events[i].status;
-                }
-            }
-        }
-
-        return '';
-    };
-};
-
-module.exports = NewOrderController;
-
-},{}]},{},[1]);
+module.exports = angular.module('foodHub.basket', [])
+    .controller(
+        'BasketCtrl',
+        require('./basket.controller.js'));
+},{"./basket.controller.js":6}]},{},[5]);
