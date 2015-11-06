@@ -31,12 +31,23 @@
         </div>
     </div>
     <hr>
-    <div class="list-group basket">
+
+    <script>
+        var vueData = {
+            products: {!! json_encode($order->products)  !!}
+        }
+    </script>
+
+    <div id="basket" class="list-group basket">
         <h3 class="basket--heading">Productos disponibles</h3>
+
+        <pre>
+            @{{ order | json }}
+        </pre>
 
         {!! BootForm::open()->action(route('orders.shares.store', $order->id)) !!}
         {!! BootForm::hidden('order_id')->value($order->id) !!}
-        @each('orders.orderProductInput', $order->products, 'product')
+        <basket v-for="product in products" :product="product"></basket>
         {!! BootForm::submit('Hacer pedido') !!}
         {!! BootForm::close() !!}
     </div>

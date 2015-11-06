@@ -1,7 +1,6 @@
 {
   "private": true,
   "devDependencies": {
-    "angular-mocks": "^1.4.3",
     "autoprefixer": "^5.2.0",
     "browser-sync": "^2.9.11",
     "browserify": "latest",
@@ -19,12 +18,15 @@
     "parallelshell": "latest",
     "phantomjs": "^1.9.17",
     "rimraf": "latest",
+    "vue": "^1.0.3",
+    "vue-hot-reload-api": "^1.2.1",
+    "vue-resource": "^0.1.16",
+    "vueify": "^5.0.0",
+    "vueify-insert-css": "^1.0.0",
     "watch": "latest"
   },
   "dependencies": {
-    "angular": "^1.4.3",
-    "bootstrap-sass": "^3.0.0",
-    "angular-ui-bootstrap": "^0.13.1"
+    "bootstrap-sass": "^3.0.0"
   },
   "scripts": {
     "clean": "rimraf public/js public/css && mkdirp public/js public/css",
@@ -32,11 +34,11 @@
     "karma": "karma start",
     "test": "./vendor/bin/phpspec run && ./vendor/bin/phpunit",
     "test:watch": "watch 'npm run -s test' app tests",
-    "build:css": "node-sass resources/assets/sass/app.scss -o public/css --source-map public/css/app.css.map",
+    "build:css": "node-sass resources/assets/sass/app.scss -o public/css --include-path node_modules/bootstrap-sass/assets/stlylesheets --source-map public/css/app.css.map",
     "preoptimize:css": "npm run -s build:css",
     "optimize:css": "postcss --config postcss.config.json",
     "prebuild:js": "npm run lint",
-    "build:js": "browserify resources/assets/js/app/app.js > public/js/bundle.js",
+    "build:js": "browserify -t vueify -e resources/assets/js/app/app.js -o public/js/bundle.js",
     "build": "npm run build:css && npm run build:js",
     "build:watch": "watch 'npm run -s build' resources/assets",
     "bsync": "browser-sync start --proxy \"foodhub.local\" --files \"public/**/*, app/**/*, resources/views/**/*\"",
