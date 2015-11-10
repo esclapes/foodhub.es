@@ -51,8 +51,8 @@ class DatabaseSeeder extends Seeder
                     'price_value' => $product->price_value,
                     'price_amount' => $product->price_amount,
                     'price_unit' => $product->price_unit,
-                    'order_amount' => $product->order_amount,
-                    'order_unit' => $product->order_unit,
+                    'step_amount' => $product->step_amount,
+                    'step_unit' => $product->step_unit,
                 ]);
             }
         }

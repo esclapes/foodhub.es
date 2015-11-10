@@ -8,7 +8,7 @@ class Product extends Model
 {
     protected $table = 'products';
     
-    protected $fillable = ['name', 'category', 'origin', 'price_value', 'price_amount', 'price_unit', 'order_amount', 'order_unit'];
+    protected $fillable = ['name', 'category', 'origin', 'price_value', 'price_amount', 'price_unit', 'step_amount', 'step_unit'];
 
     public function owner()
     {
@@ -17,6 +17,6 @@ class Product extends Model
 
     public function orders()
     {
-        $this->belongsToMany('App\Order')->withPivot('price_value', 'price_amount', 'price_unit', 'order_amount', 'order_unit')->withTimestamps();
+        $this->belongsToMany('App\Order')->withPivot('price_value', 'price_amount', 'price_unit', 'step_amount', 'step_unit')->withTimestamps();
     }
 }

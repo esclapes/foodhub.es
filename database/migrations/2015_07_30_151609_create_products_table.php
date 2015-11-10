@@ -20,8 +20,8 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('price_value');
             $table->unsignedInteger('price_amount');
             $table->string('price_unit');
-            $table->unsignedInteger('order_amount')->nullable();
-            $table->string('order_unit')->nullable();
+            $table->unsignedInteger('step_amount')->nullable();
+            $table->string('step_unit')->nullable();
             $table->integer('user_id');
             $table->softDeletes();
             $table->timestamps();

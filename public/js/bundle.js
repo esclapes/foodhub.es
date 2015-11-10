@@ -10536,7 +10536,7 @@ new Vue({
 
 });
 },{"./components/basket.vue":72,"vue":68}],72:[function(require,module,exports){
-var __vueify_style__ = require("vueify-insert-css").insert("\n    .red {\n        color: #f00;\n    }\n")
+var __vueify_style__ = require("vueify-insert-css").insert("\n    \n")
 'use strict';
 
 module.exports = {
@@ -10551,17 +10551,23 @@ module.exports = {
             if (this.amount) {
                 this.$dispatch('update-amount', this.product.id, this.amount);
             }
+        },
+        increaseAmount: function increaseAmount() {
+            this.amount = this.amount + this.product.step_amount;
+        },
+        decreaseAmount: function decreaseAmount() {
+            this.amount = this.amount - this.product.step_amount > 0 ? this.amount - this.product.step_amount : 0;
         }
     }
 };
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n    <div class=\"list-group-item basket__item\">\n        <div class=\"row basket-item\">\n            <div class=\"col-sm-7 col-lg-9\">\n                <h4 class=\"basket-item__name\">{{ product.name }}</h4>\n                <p class=\"basket-item__price\">{{ product.pivot.price_amount }} / {{ product.pivot.price_unit }}</p>\n            </div>\n            <div class=\"col-sm-5 col-lg-3\">\n                <div class=\"input-group\">\n                    <div class=\"basket-item__button-group input-group-btn\">\n                        <button type=\"button\" class=\"basket-item__button--trash btn btn-default\"><span class=\"glyphicon glyphicon-trash\"></span></button>\n                    </div>\n                    <input name=\"products[{{ product.id }}]\" class=\"basket-item__input form-control\" value=\"0\" type=\"number\" step=\"{{ product.pivot.order_amount }}\" v-model=\"amount\" @change=\"updateAmount\">\n                    <span class=\"input-group-addon\" id=\"basic-addon2\">{{ product.pivot.order_unit }}</span>\n                    <div class=\"basket-item__button-group input-group-btn\">\n                        <button type=\"button\" class=\"basket-item__button--plus btn btn-default\">\n                            <span class=\"glyphicon glyphicon-plus\"></span>\n                        </button>\n                        <button type=\"button\" class=\"basket-item__button--minus btn btn-default\">\n                            <span class=\"glyphicon glyphicon-minus\"></span>\n                        </button>\n                    </div>\n                </div>\n            </div>\n        </div>\n\n    </div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n    <div class=\"list-group-item basket__item\">\n        <div class=\"row basket-item\">\n            <div class=\"col-sm-7 col-lg-9\">\n                <h4 class=\"basket-item__name\">{{ product.name }}</h4>\n                <p class=\"basket-item__price\">{{ product.pivot.price_value }} € / {{ product.pivot.price_amount }}{{ product.pivot.price_unit }}</p>\n            </div>\n            <div class=\"col-sm-5 col-lg-3\">\n                <div class=\"input-group\">\n                    <div class=\"basket-item__button-group input-group-btn\">\n                        <button type=\"button\" @click=\"this.amount = 0\" class=\"basket-item__button--trash btn btn-default\">\n                            <span class=\"glyphicon glyphicon-trash\"></span>\n                        </button>\n                    </div>\n                    <input name=\"products[{{ product.id }}]\" class=\"basket-item__input form-control\" type=\"number\" step=\"{{ product.pivot.step_amount }}\" v-model=\"amount\" @change=\"updateAmount\" number=\"\" readonly=\"\">\n                    <span class=\"input-group-addon\" id=\"basic-addon2\">{{ product.pivot.step_unit }}</span>\n                    <div class=\"basket-item__button-group input-group-btn\">\n                        <button type=\"button\" class=\"basket-item__button--plus btn btn-default\" @click=\"increaseAmount\">\n                            <span class=\"glyphicon glyphicon-plus\"></span>\n                        </button>\n                        <button type=\"button\" class=\"basket-item__button--minus btn btn-default\" @click=\"decreaseAmount\">\n                            <span class=\"glyphicon glyphicon-minus\"></span>\n                        </button>\n                    </div>\n                </div>\n            </div>\n        </div>\n\n    </div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   var id = "/home/esclapes/Code/foodhub.es/resources/assets/js/app/components/basket.vue"
   module.hot.dispose(function () {
-    require("vueify-insert-css").cache["\n    .red {\n        color: #f00;\n    }\n"] = false
+    require("vueify-insert-css").cache["\n    \n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {

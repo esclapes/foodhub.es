@@ -19,8 +19,8 @@ class CreateOrderProductTable extends Migration
             $table->unsignedInteger('price_value')->nullable();
             $table->unsignedInteger('price_amount')->nullable();
             $table->string('price_unit')->nullable();
-            $table->unsignedInteger('order_amount')->nullable();
-            $table->string('order_unit')->nullable();
+            $table->unsignedInteger('step_amount')->nullable();
+            $table->string('step_unit')->nullable();
             $table->softDeletes();
             $table->timestamps();
             $table->unique(['order_id', 'product_id']);

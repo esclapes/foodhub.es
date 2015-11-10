@@ -33,7 +33,7 @@ class Order extends Model
      */
     public function products()
     {
-        return $this->belongsToMany(Product::class)->withPivot('price_value', 'price_amount', 'price_unit', 'order_amount', 'order_unit')->withTimestamps();
+        return $this->belongsToMany(Product::class)->withPivot('price_value', 'price_amount', 'price_unit', 'step_amount', 'step_unit')->withTimestamps();
     }
 
     /**

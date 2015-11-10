@@ -41,7 +41,7 @@
     "build:js": "browserify -t vueify -e resources/assets/js/app/app.js -o public/js/bundle.js",
     "build": "npm run build:css && npm run build:js",
     "build:watch": "watch 'npm run -s build' resources/assets",
-    "bsync": "browser-sync start --proxy \"foodhub.local\" --files \"public/**/*, app/**/*, resources/views/**/*\"",
+    "bsync": "browser-sync start --proxy \"foodhub.local\" --reload-delay 2000 --files \"public/**/*, app/**/*, resources/views/**/*\"",
     "dev": "parallelshell -v 'npm run bsync' 'npm run test:watch' 'npm run build:watch'"
   }
 }
