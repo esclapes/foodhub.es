@@ -10,10 +10,4 @@ new Vue({
     components: {
         basket: Basket
     },
-    events: {
-        'update-amount': function (id, amount) {
-            this.order[id] = amount;
-        }
-    }
-
 });

@@ -15,9 +15,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'resources/assets/js/app/app.js',
-      'resources/assets/js/app/test-utils.js',
-      'resources/assets/js/app/**/*.js'
+      'resources/assets/js/app/**/*.spec.js'
     ],
 
 
@@ -29,11 +27,13 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-        'resources/assets/js/app/**/*.js': [ 'browserify' ]
+      'resources/assets/js/app/**/*.vue': [ 'browserify' ],
+      'resources/assets/js/app/**/*.js': [ 'browserify' ]
     },
 
     browserify: {
-      debug: true
+      debug: true,
+      transform: [ 'vueify' ]
     },
 
     // test results reporter to use

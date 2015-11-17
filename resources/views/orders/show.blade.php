@@ -47,7 +47,7 @@
 
         {!! BootForm::open()->action(route('orders.shares.store', $order->id)) !!}
         {!! BootForm::hidden('order_id')->value($order->id) !!}
-        <basket v-for="product in products" :product="product"></basket>
+        <basket :order="order"></basket>
         {!! BootForm::submit('Hacer pedido') !!}
         {!! BootForm::close() !!}
     </div>
