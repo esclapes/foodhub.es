@@ -10528,46 +10528,90 @@ new Vue({
     components: {
         basket: Basket
     },
-    events: {
-        'update-amount': function (id, amount) {
-            this.order[id] = amount;
-        }
-    }
-
 });
 },{"./components/basket.vue":72,"vue":68}],72:[function(require,module,exports){
-var __vueify_style__ = require("vueify-insert-css").insert("\n    \n")
+var __vueify_style__ = require("vueify-insert-css").insert("\n\n")
 'use strict';
 
+var BasketItem = require('./basketItem.vue');
+
 module.exports = {
-    props: ['product'],
     data: function data() {
         return {
-            amount: 0
+            products: window.vueData.products,
+            order: {
+                items: []
+            }
         };
     },
-    methods: {
-        updateAmount: function updateAmount() {
-            if (this.amount) {
-                this.$dispatch('update-amount', this.product.id, this.amount);
-            }
-        },
-        increaseAmount: function increaseAmount() {
-            this.amount = this.amount + this.product.step_amount;
-        },
-        decreaseAmount: function decreaseAmount() {
-            this.amount = this.amount - this.product.step_amount > 0 ? this.amount - this.product.step_amount : 0;
+    computed: {
+        total: function total() {
+            return this.order.items.reduce(function (total, item) {
+                return total + item['amount'];
+            }, 0);
         }
+    },
+    methods: {
+        updateAmount: function updateAmount(product, amount) {
+            this.order.items[product.id] = { product: product, amount: amount };
+        }
+    },
+    components: {
+        basketItem: BasketItem
     }
 };
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n    <div class=\"list-group-item basket__item\">\n        <div class=\"row basket-item\">\n            <div class=\"col-sm-7 col-lg-9\">\n                <h4 class=\"basket-item__name\">{{ product.name }}</h4>\n                <p class=\"basket-item__price\">{{ product.pivot.price_value }} € / {{ product.pivot.price_amount }}{{ product.pivot.price_unit }}</p>\n            </div>\n            <div class=\"col-sm-5 col-lg-3\">\n                <div class=\"input-group\">\n                    <div class=\"basket-item__button-group input-group-btn\">\n                        <button type=\"button\" @click=\"this.amount = 0\" class=\"basket-item__button--trash btn btn-default\">\n                            <span class=\"glyphicon glyphicon-trash\"></span>\n                        </button>\n                    </div>\n                    <input name=\"products[{{ product.id }}]\" class=\"basket-item__input form-control\" type=\"number\" step=\"{{ product.pivot.step_amount }}\" v-model=\"amount\" @change=\"updateAmount\" number=\"\" readonly=\"\">\n                    <span class=\"input-group-addon\" id=\"basic-addon2\">{{ product.pivot.step_unit }}</span>\n                    <div class=\"basket-item__button-group input-group-btn\">\n                        <button type=\"button\" class=\"basket-item__button--plus btn btn-default\" @click=\"increaseAmount\">\n                            <span class=\"glyphicon glyphicon-plus\"></span>\n                        </button>\n                        <button type=\"button\" class=\"basket-item__button--minus btn btn-default\" @click=\"decreaseAmount\">\n                            <span class=\"glyphicon glyphicon-minus\"></span>\n                        </button>\n                    </div>\n                </div>\n            </div>\n        </div>\n\n    </div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n    <basket-item v-for=\"product in products\" :product=\"product\" @update-amount=\"updateAmount\" v-ref:product.id=\"\">\n</basket-item>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   var id = "/home/esclapes/Code/foodhub.es/resources/assets/js/app/components/basket.vue"
   module.hot.dispose(function () {
-    require("vueify-insert-css").cache["\n    \n"] = false
+    require("vueify-insert-css").cache["\n\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, module.exports.template)
+  }
+})()}
+},{"./basketItem.vue":73,"vue":68,"vue-hot-reload-api":2,"vueify-insert-css":70}],73:[function(require,module,exports){
+var __vueify_style__ = require("vueify-insert-css").insert("\n\n")
+'use strict';
+
+module.exports = {
+    props: {
+        product: {
+            type: Object
+        }
+    },
+    data: function data() {
+        return {
+            amount: 0
+        };
+    },
+    methods: {
+        increaseAmount: function increaseAmount() {
+            console.log('up');
+            this.amount = this.amount + this.product.step_amount;
+            this.$dispatch('update-amount', this.product, this.amount);
+        },
+        decreaseAmount: function decreaseAmount() {
+            console.log('down');
+            this.amount = this.amount - this.product.step_amount > 0 ? this.amount - this.product.step_amount : 0;
+            this.$dispatch('update-amount', this.product, this.amount);
+        }
+    }
+};
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n    <div class=\"list-group-item basket__item\">\n        <div class=\"row basket-item\">\n            <div class=\"col-sm-7 col-lg-9\">\n                <h4 class=\"basket-item__name\">{{ product.name }}</h4>\n                <p class=\"basket-item__price\">{{ product.pivot.price_value }} € / {{ product.pivot.price_amount }}{{ product.pivot.price_unit }}</p>\n            </div>\n            <div class=\"col-sm-5 col-lg-3\">\n                <div class=\"input-group\">\n                    <div class=\"basket-item__button-group input-group-btn\">\n                        <button type=\"button\" @click=\"this.amount = 0\" class=\"basket-item__button--trash btn btn-default\">\n                            <span class=\"glyphicon glyphicon-trash\"></span>\n                        </button>\n                    </div>\n                    <input name=\"products[{{ product.id }}]\" class=\"basket-item__input form-control\" type=\"number\" v-model=\"amount\" number=\"\" readonly=\"\">\n                    <span class=\"input-group-addon\" id=\"basic-addon2\">{{ product.pivot.step_unit }}</span>\n                    <div class=\"basket-item__button-group input-group-btn\">\n                        <button type=\"button\" class=\"basket-item__button--plus btn btn-default\" @click=\"increaseAmount\">\n                            <span class=\"glyphicon glyphicon-plus\"></span>\n                        </button>\n                        <button type=\"button\" class=\"basket-item__button--minus btn btn-default\" @click=\"decreaseAmount\">\n                            <span class=\"glyphicon glyphicon-minus\"></span>\n                        </button>\n                    </div>\n                </div>\n            </div>\n        </div>\n\n    </div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/home/esclapes/Code/foodhub.es/resources/assets/js/app/components/basketItem.vue"
+  module.hot.dispose(function () {
+    require("vueify-insert-css").cache["\n\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {

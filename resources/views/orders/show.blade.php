@@ -38,16 +38,11 @@
         }
     </script>
 
+    <h3 class="basket--heading">Productos disponibles</h3>
     <div id="basket" class="list-group basket">
-        <h3 class="basket--heading">Productos disponibles</h3>
-
-        <pre>
-            @{{ order | json }}
-        </pre>
-
         {!! BootForm::open()->action(route('orders.shares.store', $order->id)) !!}
         {!! BootForm::hidden('order_id')->value($order->id) !!}
-        <basket :order="order"></basket>
+        <basket></basket>
         {!! BootForm::submit('Hacer pedido') !!}
         {!! BootForm::close() !!}
     </div>

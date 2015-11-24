@@ -3,29 +3,31 @@
 </style>
 
 <template>
-    <basket-item v-for="product in order.products" :product="product"></basket-item>
+    <basket-item v-for="product in products" :product="product" @update-amount="updateAmount" v-ref:product.id>
 </template>
 
 <script>
     var BasketItem = require('./basketItem.vue');
 
     module.exports = {
-        props: ['order'],
         data: function() {
             return {
-                items: []
+                products: window.vueData.products,
+                order: {
+                    items: []
+                }
             };
         },
         computed: {
             total: function() {
-                return this.items.reduce(function(total, item) {
+                return this.order.items.reduce(function(total, item) {
                    return total + item['amount'];
                 }, 0);
             }
         },
-        events: {
-            'update-amount': function (id, amount) {
-                this.items.push({id: id, amount: amount});
+        methods: {
+            updateAmount: function (product, amount) {
+                this.order.items[product.id] = {product: product, amount: amount};
             }
         },
         components: {

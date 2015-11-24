@@ -21,9 +21,7 @@
                     <input name="products[{{ product.id }}]"
                            class="basket-item__input form-control"
                            type="number"
-                           step="{{ product.pivot.step_amount }}"
                            v-model="amount"
-                           @change="updateAmount"
                            number
                            readonly>
                     <span class="input-group-addon" id="basic-addon2">{{ product.pivot.step_unit }}</span>
@@ -44,23 +42,26 @@
 
 <script>
     module.exports = {
-        props: ['product'],
+        props: {
+            product: {
+                type: Object
+            }
+        },
         data: function() {
             return {
                 amount: 0
             };
         },
         methods: {
-            updateAmount: function() {
-                if(this.amount) {
-                    this.$dispatch('update-amount', this.product.id, this.amount);
-                }
-            },
             increaseAmount: function() {
+                console.log('up');
                 this.amount = this.amount + this.product.step_amount;
+                this.$dispatch('update-amount', this.product, this.amount);
             },
             decreaseAmount: function() {
+                console.log('down');
                 this.amount = (this.amount - this.product.step_amount) > 0 ? this.amount - this.product.step_amount : 0;
+                this.$dispatch('update-amount', this.product, this.amount);
             }
         }
     }
