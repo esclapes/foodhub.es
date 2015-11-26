@@ -26,7 +26,8 @@
     "watch": "latest"
   },
   "dependencies": {
-    "bootstrap-sass": "^3.0.0"
+    "bootstrap-sass": "^3.0.0",
+    "lodash": "^3.10.1"
   },
   "scripts": {
     "clean": "rimraf public/js public/css && mkdirp public/js public/css",

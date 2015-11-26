@@ -16,6 +16,14 @@ class Order extends Model
 
     protected $softDelete = true;
 
+    /*
+     * Order status
+     */
+    const PENDING  = 'pending';
+    const OPEN     = 'open';
+    const CLOSED   = 'closed';
+    const ARCHIVED = 'archived';
+
     /**
      * Inverse relationship with the owner user
      *
@@ -54,5 +62,10 @@ class Order extends Model
     public function shareholders()
     {
         return $this->hasManyThrough(User::class, App\OrderShare::class);
+    }
+
+    public function scopeOpen($query)
+    {
+        return $query->where('status', Order::OPEN);
     }
 }

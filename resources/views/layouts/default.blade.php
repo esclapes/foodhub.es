@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="foodHub" ng-strict-di>
+<html id="app" lang="en" ng-app="foodHub" ng-strict-di>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

@@ -1,12 +1,6 @@
 @extends('layouts.default')
 
 @section('content')
-	@if(Auth::check())
-		<h2>Tus pedidos</h2>
-		@each('orders.summaryItem', Auth::user()->orders, 'order', 'orders.summaryEmpty')
-		{!! dump(Auth::user()->orders)  !!}
-	@else
-		@include('auth.login')
-	@endif
-
+		<h2>Pedido abiertos</h2>
+		@each('orders.summaryItem', $orders, 'order', 'orders.summaryEmpty')
 @stop

@@ -16,6 +16,7 @@ class CreateOrdersTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('description');
+            $table->string('status')->default(App\Order::OPEN);
             $table->date('closing_at');
             $table->integer('user_id');
             $table->timestamps();

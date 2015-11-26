@@ -10,6 +10,7 @@
             </p>
         </div>
     </div>
+    <!--
     <div class="row">
         <div class="col-xs-4">
             <div class="panel panel-primary">
@@ -30,6 +31,7 @@
             </div>
         </div>
     </div>
+    -->
     <hr>
 
     <script>
@@ -39,11 +41,7 @@
     </script>
 
     <h3 class="basket--heading">Productos disponibles</h3>
-    <div id="basket" class="list-group basket">
-        {!! BootForm::open()->action(route('orders.shares.store', $order->id)) !!}
-        {!! BootForm::hidden('order_id')->value($order->id) !!}
-        <basket></basket>
-        {!! BootForm::submit('Hacer pedido') !!}
-        {!! BootForm::close() !!}
-    </div>
+
+    <basket :products="products"></basket>
+
 @stop

@@ -4,10 +4,10 @@ describe('basket', function () {
     var Vue    = require('vue');
     var basket = require('../components/basket.vue');
 
-    it('should have no items when initialized', function () {
+    it('should have no selected items when initialized', function () {
         expect(typeof basket.data).toBe('function');
         var defaultData = basket.data();
-        expect(defaultData.items).toEqual([]);
+        expect(defaultData.selected).toEqual([]);
     });
 
     it('should have a on update amount listener', function () {

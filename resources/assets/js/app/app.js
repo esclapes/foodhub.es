@@ -2,12 +2,9 @@ var Vue = require('vue');
 var Basket = require('./components/basket.vue');
 
 new Vue({
-    el: '#basket',
-    data: {
-        products: window.vueData.products,
-        order: {}
-    },
+    el: '#app',
+    data: window.vueData,
     components: {
         basket: Basket
-    },
+    }
 });

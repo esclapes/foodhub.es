@@ -21,7 +21,8 @@ Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
 
 Route::get('/', function () {
-    return view('pages.home');
+    $orders = App\Order::open()->get();
+    return view('pages.home')->with(compact('orders'));
 });
 
 Route::resource('orders', 'OrdersController');
