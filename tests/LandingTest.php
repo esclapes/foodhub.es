@@ -4,16 +4,12 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class ExampleTest extends TestCase
+class LandingTest extends TestCase
 {
-    /**
-     * A basic functional test example.
-     *
-     * @return void
-     */
-    public function testBasicExample()
+    /** @test */
+    public function it_welcomes_you()
     {
         $this->visit('/')
-             ->see('Laravel 5');
+             ->see(trans('landing.welcome'));
     }
 }
