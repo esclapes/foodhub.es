@@ -9,6 +9,11 @@
 
                 <div class="panel-body">
                     {{ trans('landing.introline') }}
+
+                    @foreach($orders as $order)
+                        <h2>{{ $order->title }}</h2>
+                    @endforeach
+
                 </div>
             </div>
         </div>
