@@ -22,7 +22,7 @@ class Order extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class)->withTimestamps();
+        return $this->belongsToMany(Product::class)->withPivot('price_value', 'price_amount', 'price_unit', 'step_amount', 'step_unit')->withTimestamps();
     }
 
     /**
@@ -47,7 +47,7 @@ class Order extends Model
             throw new InvalidArgumentException;
         }
 
-        return $this->products()->save($product);
+        return $this->products()->save($product, $product->pricing);
 
     }
 

@@ -42,7 +42,8 @@ class OrderTest extends TestCase
     }
 
     /** @test */
-    public function it_can_have_a_product_added() {
+    public function it_can_have_a_product_added()
+    {
 
         $product = factory(Product::class)->create();
 
@@ -55,7 +56,8 @@ class OrderTest extends TestCase
     }
 
     /** @test */
-    public function it_can_have_many_products_added() {
+    public function it_can_have_many_products_added()
+    {
 
         $products = factory(Product::class, 5)->create();
 
