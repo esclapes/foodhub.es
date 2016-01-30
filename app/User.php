@@ -28,4 +28,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+
+    public function makeManager() {
+        $this->is_manager = TRUE;
+        return $this->save();
+    }
+
+    public function isManager() {
+        return $this->is_manager;
+    }
+
+
 }

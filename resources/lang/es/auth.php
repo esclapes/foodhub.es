@@ -17,5 +17,6 @@ return [
     'throttle' => 'Demasiados intentos de acceso. Por favor intente nuevamente en :seconds segundos.',
     'login' => 'Acceder',
     'register' => 'Registro',
+    'logout' => 'Salir'
 
 ];

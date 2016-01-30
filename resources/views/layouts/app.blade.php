@@ -63,7 +63,10 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                                @if(Auth::user()->isManager())
+                                    <li><a href="{{ action('DashboardController@index') }}">{{ trans('dashboard.name') }}</a></li>
+                                @endif
+                                <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>{{ trans('auth.logout') }}</a></li>
                             </ul>
                         </li>
                     @endif

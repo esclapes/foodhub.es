@@ -1,6 +1,7 @@
 <?php
 
 use App\Order;
+use App\User;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -39,6 +40,23 @@ class LandingTest extends TestCase
             ->seeLink($newOrders[1]->title)
             ->seeLink($newOrders[2]->title)
             ->seeLink($newOrders[3]->title);
+    }
+
+    /** @test */
+    public function it_shows_a_dashboard_link_only_to_managers()
+    {
+        $user = factory(User::class)->create();
+
+        $this->be($user);
+
+        $this->visit('/')
+            ->dontSeeLink(trans('dashboard.name'));
+
+        $user->makeManager();
+
+        $this->visit('/')
+            ->seeLink(trans('dashboard.name'), action('DashboardController@index'));
+
     }
 
 }
