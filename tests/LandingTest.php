@@ -28,4 +28,17 @@ class LandingTest extends TestCase
             ->see($newOrders[2]->title)
             ->see($newOrders[3]->title);
     }
+
+    /** @test */
+    public function it_shows_a_open_orders_with_a_link()
+    {
+        $newOrders = factory(Order::class, 4)->create(['status' => Order::OPEN]);
+
+        $this->visit('/')
+            ->seeLink($newOrders[0]->title)
+            ->seeLink($newOrders[1]->title)
+            ->seeLink($newOrders[2]->title)
+            ->seeLink($newOrders[3]->title);
+    }
+
 }

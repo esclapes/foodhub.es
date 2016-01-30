@@ -11,7 +11,7 @@
                     {{ trans('landing.introline') }}
 
                     @foreach($orders as $order)
-                        <h2>{{ $order->title }}</h2>
+                        <h2><a href="{{ action('OrderController@show', [$order]) }}">{{ $order->title }}</a></h2>
                     @endforeach
 
                 </div>
