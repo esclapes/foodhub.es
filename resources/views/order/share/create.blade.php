@@ -4,6 +4,7 @@
     <div class="row row--spaced">
         <div class="col-xs-12">
             <h2>#{{ $order->id }} - {{ $order->title }}</h2>
+            <p>{{ $order->description }}</p>
             <p class="label label-success">{{ $order->status }}</p>
             <p class="label label-default">
                 <span class="glyphicon glyphicon-time"></span>{{ $order->closing_at }}
@@ -41,7 +42,10 @@
     </script>
 
     <h3 class="basket--heading">Productos disponibles</h3>
+    {!! BootForm::open()->action(action('ShareController@store', $order)) !!}
 
     <basket :products="products"></basket>
+
+    {!! BootForm::close() !!}
 
 @stop

@@ -25,7 +25,9 @@ $factory->defineAs(User::class, 'manager', function (Faker\Generator $faker) use
 $factory->define(Order::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->sentence(),
+        'description' => $faker->paragraph(),
         'status' => $faker->randomElement([Order::OPEN, Order::CLOSED, Order::CREATED, Order::ARCHIVED, Order::PENDING]),
+        'closing_at' => $faker->dateTimeBetween('-5 days', '+5 days'),
         'user_id' => factory(User::class)->create()->id,
     ];
 });

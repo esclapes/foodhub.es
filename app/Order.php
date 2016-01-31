@@ -14,6 +14,7 @@ class Order extends Model
     const PENDING = 'pending';
     const ARCHIVED = 'archived';
 
+    protected $fillable = ['title', 'description', 'closin_at'];
 
     public function user()
     {

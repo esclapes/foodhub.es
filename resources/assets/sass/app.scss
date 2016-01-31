@@ -3,3 +3,12 @@
 body {
   font-family: Lato;
 }
+
+.basket-item__button-group {
+  button {
+    width: 50%;
+  }
+  &.btn-group {
+    display: block;
+  }
+}

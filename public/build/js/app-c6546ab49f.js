@@ -22392,7 +22392,7 @@ module.exports = {
     computed: {
         total: function total() {
             return this.selected.reduce(function (total, item) {
-                return total + item.product.pivot.price_value * (item.amount / item.product.pivot.price_amount);
+                return total + item.product.pivot.price_value * (item.amount / item.product.pivot.price_amount);;
             }, 0);
         },
         items: function items() {
@@ -22402,7 +22402,14 @@ module.exports = {
     methods: {
         updateAmount: function updateAmount(product, amount) {
             this.selected = _.reject(this.selected, { id: product.id });
-            if (amount > 0) this.selected.push({ id: product.id, product: product, amount: amount });
+            if (amount > 0) this.selected.push({
+                id: product.id,
+                product: product,
+                amount: amount
+            });
+        },
+        getSubtotal: function getSubtotal(item) {
+            return item.product.pivot.price_value * (item.amount / item.product.pivot.price_amount);
         }
     },
     components: {
@@ -22410,7 +22417,7 @@ module.exports = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <div class=\"list-group basket col-sm-6\">\n        <basket-item v-for=\"product in products\" :product=\"product\" @update-amount=\"updateAmount\" v-ref:product.id=\"\">\n    </basket-item></div>\n    <div class=\"col-sm-6\">\n        <p>\n            Total: {{total}} € | Items: {{items}}\n        </p>\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n\n    <div class=\"list-group basket col-sm-8\">\n        <basket-item v-for=\"product in products\" :product=\"product\" @update-amount=\"updateAmount\" v-ref:product.id=\"\">\n    </basket-item></div>\n    <div class=\"col-sm-4\">\n        <p v-show=\"!selected.length\">\n            Selecciona productos de la lista para hacer tu pedido.\n        </p>\n        <p v-else=\"\">\n            Aquí puedes revisar tu pedido.\n        </p>\n\n        <table class=\"table table-striped\">\n            <tbody><tr>\n            <th>Articulo</th>\n            <th>Cantidad</th>\n            <th>Precio</th>\n            </tr>\n            <tr v-show=\"!selected.length\">\n                <td colspan=\"3\">-------------</td>\n            </tr>\n            <tr v-for=\"item in selected\">\n                <td class=\"col-xs-8\">\n                    {{ item.product.name }}\n                </td>\n                <td class=\"col-xs-2\">\n                    {{ item.amount }}&nbsp;{{ item.product.pivot.step_unit\n                    }}\n                </td>\n                <td class=\"col-xs-2\">\n                    {{ getSubtotal(item) }}€\n                </td>\n            </tr>\n            <tr>\n                <th>\n                    Total\n                </th>\n                <th></th>\n                <th>{{ total }}€</th>\n            </tr>\n        </tbody></table>\n        <div class=\"form-group\">\n            <label for=\"email\">Email</label>\n            <input type=\"email\" class=\"form-control\" name=\"email\" placeholder=\"Email\" required=\"\">\n        </div>\n        <div class=\"form-group\">\n            <label for=\"phone\">Teléfono</label>\n            <input type=\"tel\" class=\"form-control\" name=\"phone\" placeholder=\"Teléfono\" required=\"\">\n        </div>\n        <div class=\"form-group\">\n            <label for=\"comments\">Comentarios</label>\n            <textarea class=\"form-control\" name=\"comments\" id=\"\" rows=\"3\"></textarea>\n        </div>\n        <button class=\"btn btn-success btn-lg\" type=\"submit\">Confirmar pedido</button>\n    </div>\n\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -22457,7 +22464,7 @@ module.exports = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"list-group-item basket__item\">\n    <div class=\"row basket-item\">\n        <div class=\"col-sm-7 col-lg-9 col-xs-12\">\n            <h4 class=\"basket-item__name\">{{ product.name }}</h4>\n            <p class=\"basket-item__price\">{{ product.pivot.price_value }} € / {{ product.pivot.price_amount }}{{ product.pivot.price_unit }}</p>\n        </div>\n        <div class=\"col-sm-5 col-lg-3 col-xs-8\">\n            <div class=\"input-group\">\n                <!--<div class=\"basket-item__button-group input-group-btn\">\n                    <button type=\"button\"\n                            @click=\"clearAmount\"\n                            class=\"basket-item__button&#45;&#45;trash btn btn-default\">\n                        <span class=\"glyphicon glyphicon-trash\"></span>\n                    </button>\n                </div>-->\n                <input name=\"products[{{ product.id }}]\" class=\"basket-item__input form-control\" type=\"number\" v-model=\"amount\" number=\"\" readonly=\"\">\n                <span class=\"input-group-addon\" id=\"basic-addon2\">{{ product.pivot.step_unit }}</span>\n                <div class=\"basket-item__button-group input-group-btn\">\n                    <button type=\"button\" class=\"basket-item__button--plus btn btn-default\" @click=\"increaseAmount\">\n                        <span class=\"glyphicon glyphicon-plus\"></span>\n                    </button>\n                    <button type=\"button\" class=\"basket-item__button--minus btn btn-default\" @click=\"decreaseAmount\">\n                        <span class=\"glyphicon glyphicon-minus\"></span>\n                    </button>\n                </div>\n            </div>\n        </div>\n    </div>\n\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"list-group-item basket__item\">\n    <div class=\"row basket-item\">\n        <div class=\"col-xs-7 col-sm-8\">\n            <h4 class=\"basket-item__name\">{{ product.name }}</h4>\n\n            <p class=\"basket-item__price\">{{ product.pivot.price_value\n                }} € / <span v-if=\"product.pivot.price_amount != 1\">{{ product.pivot.price_amount }}</span>{{\n                product.pivot.price_unit }}</p>\n        </div>\n        <div class=\"col-xs-5 col-sm-4\">\n            <div class=\"input-group\">\n                <input name=\"products[{{ product.id }}]\" class=\"basket-item__input input-small form-control\" type=\"number\" v-model=\"amount\" number=\"\" readonly=\"\">\n                <span class=\"input-group-addon\" id=\"basic-addon2\">{{ product.pivot.step_unit }}</span>\n            </div>\n\n            <div class=\"basket-item__button-group btn-group\">\n                <button type=\"button\" class=\"basket-item__button--plus btn btn-default\" @click=\"increaseAmount\">\n                    <span class=\"glyphicon glyphicon-plus\"></span>\n                </button>\n                <button type=\"button\" class=\"basket-item__button--minus btn btn-default\" @click=\"decreaseAmount\">\n                    <span class=\"glyphicon glyphicon-minus\"></span>\n                </button>\n            </div>\n\n        </div>\n    </div>\n\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
