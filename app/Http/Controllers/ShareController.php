@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Order;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class OrderController extends Controller
+class ShareController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,9 +25,9 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Order $order)
     {
-        //
+        return view('order.share.create')->with(compact('order'));
     }
 
     /**
@@ -48,7 +49,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        return view('order.show');
+        //
     }
 
     /**

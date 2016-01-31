@@ -13,4 +13,8 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::resource('order', 'OrderController');
 
+    Route::resource('order.share', 'ShareController');
+
+    Route::get('o/{order}', 'ShareController@create');
+
 });

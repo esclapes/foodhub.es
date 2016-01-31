@@ -1,0 +1,88 @@
+name,category,origin,price_value,price_amount,price_unit,step_amount,step_unit
+Aguacate Bacon ,Fruta,España,4.75,1,kg.,1,kg.
+Chirimoyas,Fruta,Andalucia,4.72,1,kg.,1,kg.
+Frambuesas,Fruta,Andalucia,4.4,125,gr.,125,gr.
+Granadas ,Fruta,Alicante,3.07,1,kg.,1,kg.
+Kaki Rojo Brillante,Fruta,Valencia,2.62,1,kg.,1,kg.
+Kiwi,Fruta,Extremadura,3.06,1,kg.,1,kg.
+Limon Fino,Fruta,Orba,1.7,1,kg.,1,kg.
+Mandarina Clementina,Fruta,Valencia,2.4,1,kg.,1,kg.
+Mandarina Satsuma,Fruta,Orba,1.16,1,kg.,1,kg.
+Mango Keitt,Fruta,Andalucia,5.66,1,kg.,1,kg.
+Manzana Futji,Fruta,Aragón,3.36,1,kg.,1,kg.
+Manzana Golden,Fruta,Aragón,3.05,1,kg.,1,kg.
+Manzana Royal Gala ,Fruta,Alicante,3.38,1,kg.,1,kg.
+Manzana Granny Smith,Fruta,Alicante,2.96,1,kg.,1,kg.
+Membrillo,Fruta,España,2.09,1,kg.,1,kg.
+Naranja Navelina Directa Del Campo,Fruta,La Xara,1.28,1,kg.,1,kg.
+Pera Conferencia,Fruta,Navarra,3.28,1,kg.,1,kg.
+Pera Williams,Fruta,Aragón,2.25,1,kg.,1,kg.
+Platanos ,Fruta,Canarias,2.85,1,kg.,1,kg.
+Pomelo Star Rubi,Fruta,Valencia,2.16,1,kg.,1,kg.
+Uva Blanca ,Fruta,Alicante,4.56,1,kg.,1,kg.
+Uva Negra Napoleon,Fruta,Valencia,3.52,1,kg.,1,kg.
+Almendra Pelada,Frutos secos,Murla,12,1,kg.,1,kg.
+Almendra Repelada,Frutos secos,Murla,14,1,kg.,1,kg.
+Avellanas Cascara,Frutos secos,Cataluña,6.75,1,kg.,1,kg.
+Crema Aloha De Algarroba,Frutos secos,Murla,4,200,gr.,200,gr.
+Crema Aloha De Almendra Dulce,Frutos secos,Murla,5,200,gr.,200,gr.
+Crema Aloha De Almendra Natural,Frutos secos,Murla,5,200,gr.,200,gr.
+Crema Aloha De Almendra Pelada,Frutos secos,Murla,5,200,gr.,200,gr.
+Crema Aloha De Almendra Salada,Frutos secos,Murla,5,200,gr.,200,gr.
+Crema Aloha De Cacao,Frutos secos,Murla,4,200,gr.,200,gr.
+Crema Aloha De Turron,Frutos secos,Murla,4.5,200,gr.,200,gr.
+Datiles Granel,Frutos secos,Tunez,7.5,1,kg.,1,kg.
+Higos Secos Cuello De Dama,Frutos secos,España,11.38,1,kg.,1,kg.
+Miel Artesana,Frutos secos,Pedreguer,7.5,1,kg.,1,kg.
+Nueces Del Pais,Frutos secos,España,6.4,1,kg.,1,kg.
+Pistachos Tostados Con Cáscara,Frutos secos,Castilla,3.84,200,gr.,200,gr.
+Pan De Centeno Integral,Frutos secos,Orba,3,800,gr.,800,gr.
+Pan De Espelta Blanco,Frutos secos,Orba,3,600,gr.,600,gr.
+Salsa Pesto,Frutos secos,Orba,3.3,100,gr.,100,gr.
+Salsa Pesto,Frutos secos,Orba,6,200,gr.,200,gr.
+Acelgas,Verdruras y Hortalizas,Valencia,2.32,1,kg.,1,kg.
+Ajo Blanco,Verdruras y Hortalizas,Albacete,6.47,1,kg.,1,kg.
+Albahaca Manojo,Verdruras y Hortalizas,Vall de Laguar,1.2,1,ud.,1,ud.
+Apio,Verdruras y Hortalizas,Xavia,3.52,1,kg.,1,kg.
+Berenjena ,Verdruras y Hortalizas,Orba,2.69,1,kg.,1,kg.
+Boniato Blanco Para Pastisets,Verdruras y Hortalizas,Vall de Laguar,2.23,1,kg.,1,kg.
+Boniato Naranja,Verdruras y Hortalizas,Andalucia,2.23,1,kg.,1,kg.
+Brocoli,Verdruras y Hortalizas,Orba,3.84,1,kg.,1,kg.
+Calabacin ,Verdruras y Hortalizas,valencia,5.52,1,kg.,1,kg.
+Calabaza De Asar,Verdruras y Hortalizas,Valencia,1.64,1,kg.,1,ud.
+Calabaza Potimarron,Verdruras y Hortalizas,valencia,1.79,1,kg.,1,ud.
+Calabaza Cacahuete,Verdruras y Hortalizas,Vall de Laguar,1.57,1,kg.,1,ud.
+Cebolla Grano De Oro,Verdruras y Hortalizas,valencia,1.56,1,kg.,1,kg.
+Cebolla Morada,Verdruras y Hortalizas,valencia,1.76,1,kg.,1,kg.
+Champiñon,Verdruras y Hortalizas,La Rioja,6.27,1,kg.,1,kg.
+Chirivia,Verdruras y Hortalizas,     Castilla ,3.92,1,kg.,1,kg.
+Coliflor,Verdruras y Hortalizas,Orba,3.2,1,ud.,1,ud.
+Colirabano,Verdruras y Hortalizas,Xavia,1.2,1,ud.,1,ud.
+Col Lisa,Verdruras y Hortalizas,Orba,1,1,kg.,1,kg.
+Col Rizada,Verdruras y Hortalizas,Orba,1,1,kg.,1,kg.
+Curcuma,Verdruras y Hortalizas,Perú,17.08,1,kg.,1,kg.
+Espinacas,Verdruras y Hortalizas,Valencia,4.72,1,kg.,1,kg.
+Hierbabuena Manojo,Verdruras y Hortalizas,Murla,1.2,1,ud.,1,ud.
+Hinojo,Verdruras y Hortalizas,Orba,3.2,1,kg.,1,kg.
+Jengibre,Verdruras y Hortalizas,China,5.93,1,kg.,1,kg.
+Laurel ,Verdruras y Hortalizas,Murla,1.65,200,gr.,200,gr.
+Lechuga,Verdruras y Hortalizas,"Xavia, Orba",1.2,1,ud.,1,ud.
+Nabo Daikon,Verdruras y Hortalizas,España,3.6,1,kg.,1,kg.
+Patata Blanca ,Verdruras y Hortalizas,valencia,1.39,1,kg.,1,kg.
+Patata Roja,Verdruras y Hortalizas,valencia,1.47,1,kg.,1,kg.
+Pepino Corto ,Verdruras y Hortalizas,valencia,2.56,1,kg.,1,kg.
+Perejil Manojo,Verdruras y Hortalizas,Vall de Laguar,1.2,1,ud.,1,ud.
+Pimiento Amarillo,Verdruras y Hortalizas,Castilla  ,3.07,1,kg.,1,kg.
+Pimiento Rojo ,Verdruras y Hortalizas,Castilla  ,3.21,1,kg.,1,kg.
+Pimiento Verde  ,Verdruras y Hortalizas,Vall de Laguar,2.77,1,kg.,1,kg.
+Pimiento Verde Italiano ,Verdruras y Hortalizas,Xavia,2.22,1,kg.,1,kg.
+Puerro ,Verdruras y Hortalizas,Xavia,3.04,1,kg.,1,kg.
+Remolacha Granel ,Verdruras y Hortalizas,Alicante,2.55,1,kg.,1,kg.
+Remolacha Manojo,Verdruras y Hortalizas,Xavia,1.84,1,mjo.,1,mjo.
+Seta Shitake,Verdruras y Hortalizas,La Rioja,12.8,1,kg.,1,kg.
+Tomate Cherry,Verdruras y Hortalizas,Vall de Laguar,2.04,250,gr.,250,gr.
+Tomate Ensalada,Verdruras y Hortalizas,Murcia,3.87,1,kg.,1,kg.
+Tomate Rama,Verdruras y Hortalizas,Almería,3.58,1,kg.,1,kg.
+Tomate Pera ,Verdruras y Hortalizas,valencia,2.92,1,kg.,1,kg.
+Zanahoria ,Verdruras y Hortalizas,Cadiz,2,1,kg.,1,kg.
+Huevos Eco,Otros,Valencia,4,1,doc.,1,doc.

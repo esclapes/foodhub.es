@@ -13,6 +13,15 @@ $factory->define(User::class, function (Faker\Generator $faker) {
     ];
 });
 
+
+$factory->defineAs(User::class, 'manager', function (Faker\Generator $faker) use ($factory) {
+    $user = $factory->raw(App\User::class);
+
+    $user['is_manager'] = TRUE;
+
+    return $user;
+});
+
 $factory->define(Order::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->sentence(),

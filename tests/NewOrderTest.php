@@ -6,32 +6,23 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class LandingTest extends TestCase
+class NewOrderTest extends TestCase
 {
 
     use DatabaseMigrations;
 
+
     /** @test */
-    public function it_welcomes_you()
+    public function it_shows_available_products()
     {
-        $this->visit('/')
-             ->see(trans('landing.welcome'));
+        $order = factory(Order::class)->create(['status' => Order::OPEN]);
+
+        $this->visit('/o/' . $order->getRouteKey())
+            ->see($order->title);
     }
 
-    /** @test */
-    public function it_shows_a_list_of_current_open_orders()
-    {
-        $newOrders = factory(Order::class, 4)->create(['status' => Order::OPEN]);
 
-        $this->visit('/')
-            ->see($newOrders[0]->title)
-            ->see($newOrders[1]->title)
-            ->see($newOrders[2]->title)
-            ->see($newOrders[3]->title);
-    }
-
-    /** @test */
-    public function it_shows_a_open_orders_with_a_link()
+    public function it_fshows_a_open_orders_with_a_link()
     {
         $newOrders = factory(Order::class, 4)->create(['status' => Order::OPEN]);
 
@@ -42,8 +33,8 @@ class LandingTest extends TestCase
             ->seeLink($newOrders[3]->title, action('ShareController@create', $newOrders[3]->id));
     }
 
-    /** @test */
-    public function it_shows_a_dashboard_link_only_to_managers()
+
+    public function it_shows_a_dashboard_link_monly_to_managers()
     {
         $user = factory(User::class)->create();
 

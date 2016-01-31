@@ -29,6 +29,11 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
     public function makeManager() {
         $this->is_manager = TRUE;
         return $this->save();

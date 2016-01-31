@@ -13,15 +13,15 @@ class Product extends Model
     protected $step_amount;
     protected $step_unit;
 
-    protected $appends = [ 'price_value', 'price_amount', 'price_unit', 'step_unit', 'step_amount' ];
+    protected $appends = [ 'price_value', 'price_amount', 'price_unit', 'step_amount', 'step_unit' ];
 
 
     public function __construct($attributes = array())
     {
-        $pricing = array_intersect_key($attributes,self::pricingDefaults());
-        $this->setPricing($pricing);
-
         parent::__construct(array_diff_key($attributes, self::pricingDefaults())); // Eloquent
+
+        $pricing = array_intersect_key($attributes, self::pricingDefaults());
+        $this->setPricing($pricing);
     }
 
     /**
@@ -51,26 +51,49 @@ class Product extends Model
         ];
     }
 
+    public function getPriceValueAttribute() {
+        return $this->price_value;
+    }
+
+    public function getPriceAmountAttribute() {
+        return $this->price_amount;
+    }
+
+    public function getPriceUnitAttribute() {
+        return $this->price_unit;
+    }
+
+    public function getStepUnitAttribute() {
+        return $this->step_unit ?: $this->price_unit;
+    }
+
+    public function getStepAmountAttribute() {
+        return $this->step_amount ?: $this->price_amount;
+    }
+
     public static function pricingDefaults()
     {
         return [
             'price_value' => 1,
             'price_amount' => 1,
-            'price_unit' => 'unit',
+            'price_unit' => 'ud.',
             'step_unit' => null,
             'step_amount' => null
         ];
     }
 
-    private function setPricing($values = [])
+    public function setPricing($values = [])
     {
         $pricing = array_merge(self::pricingDefaults(), $this->lastPricing(), $values);
 
         $this->price_value = $pricing['price_value'];
         $this->price_amount = $pricing['price_amount'];
         $this->price_unit = $pricing['price_unit'];
-        $this->step_amount = $pricing['step_unit'];
-        $this->step_unit = $pricing['step_amount'];
+        $this->step_amount = $pricing['step_amount'];
+        $this->step_unit = $pricing['step_unit'];
+
+        return $this;
 
     }
+
 }
