@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOrdersTable extends Migration
+class CreateShareItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,15 +12,17 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('share_items', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned()->notNull()->index();
-            $table->string('title');
-            $table->string('description');
-            $table->dateTime('closing_at');
-            $table->string('status');
+            $table->integer('share_id')->unsigned();
+            $table->integer('product_id')->unsigned();
+            $table->integer('amount');
+            $table->decimal('price', 5, 2);
+            $table->string('unit');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->unique(['share_id', 'product_id']);
         });
     }
 
@@ -31,6 +33,6 @@ class CreateOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('orders');
+        Schema::drop('share_items');
     }
 }

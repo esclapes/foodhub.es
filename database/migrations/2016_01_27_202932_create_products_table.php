@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('origin')->nullable();
             $table->string('category')->nullable();
             $table->integer('user_id')->unsigned();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

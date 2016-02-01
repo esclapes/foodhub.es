@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Order;
+use App\Share;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -38,7 +39,7 @@ class ShareController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->input());
+        new Share($request->only('email', 'phone', 'comments'));
     }
 
     /**
