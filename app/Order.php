@@ -65,4 +65,29 @@ class Order extends Model
         return $this->products()->saveMany($products);
 
     }
+
+    public function getShareItems(array $items)
+    {
+        $items = collect(array_filter($items));
+
+        $products = $items->map(function ($amount, $id) {
+            return $this->getShareItem($amount, $id);
+        });
+
+        return $products;
+    }
+
+    public function getShareItem ($amount, $id) {
+
+        $product = $this->products()->find($id);
+        $newItem = [
+            'product_id' => $id,
+            'amount' => $amount,
+            'price' => $product->getItemPrice($amount),
+            'unit' => $product->step_unit
+        ];
+        dd($newItem);
+        return new ShareItem($newItem);
+    }
+
 }

@@ -37,9 +37,18 @@ class ShareController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Order $order)
     {
-        new Share($request->only('email', 'phone', 'comments'));
+        //dd($request->input());
+        $share = new Share($request->only('email', 'phone', 'comments'));
+        $share->order_id = $order->id;
+        $share->save();
+
+        $shareItems = $order->getShareItems($request->input('products'));
+        dd($shareItems);
+        $share->items()->saveMany($shareItems);
+
+        dd($share);
     }
 
     /**

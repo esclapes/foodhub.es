@@ -71,6 +71,13 @@ class Product extends Model
         return $this->step_amount ?: $this->price_amount;
     }
 
+    public function getItemPrice($amount) {
+        if ($this->getStepUnitAttribute() != $this->getPriceUnitAttribute()) {
+            return null;
+        }
+        return  $amount * $this->getPriceValueAttribute() / $this->getPriceAmountAttribute();
+    }
+
     public static function pricingDefaults()
     {
         return [

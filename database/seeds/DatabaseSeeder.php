@@ -1,5 +1,7 @@
 <?php
 
+use App\Share;
+use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use League\Csv\Reader;
@@ -19,6 +21,8 @@ class DatabaseSeeder extends Seeder
 
         $this->attachOrdersAndProducts($admin);
 
+        $this->generateOrderSharesFor($admin);
+
         Model::reguard();
     }
 
@@ -33,8 +37,8 @@ class DatabaseSeeder extends Seeder
 
         $faker = Faker\Factory::create();
 
-        $user->orders()->saveMany(factory(App\Order::class, 5)->make());
-        $user->orders()->saveMany(factory(App\Order::class, 3)->make(['status' => App\Order::OPEN]));
+        $user->orders()->saveMany(factory(App\Order::class, 5)->make(['user_id' => $user->id]));
+        $user->orders()->saveMany(factory(App\Order::class, 3)->make(['status' => App\Order::OPEN, 'user_id' => $user->id]));
 
         // We create products from a real csv
         $reader = Reader::createFromPath(base_path('resources/import/products.csv'));
@@ -53,5 +57,17 @@ class DatabaseSeeder extends Seeder
             }
         }
 
+    }
+
+    private function generateOrderSharesFor($admin)
+    {
+        $users = collect(User::where('is_manager', 0)->get());
+        foreach($admin->orders as $order) {
+            foreach($users->random(6)->values()->all() as $user ) {
+                $share = new Share(['email' => $user->email, 'order_id' => $order->id]);
+                $share->save();
+            }
+
+        }
     }
 }

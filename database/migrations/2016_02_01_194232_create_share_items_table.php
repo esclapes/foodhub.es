@@ -17,7 +17,7 @@ class CreateShareItemsTable extends Migration
             $table->integer('share_id')->unsigned();
             $table->integer('product_id')->unsigned();
             $table->integer('amount');
-            $table->decimal('price', 5, 2);
+            $table->decimal('price', 5, 2)->nullable();
             $table->string('unit');
             $table->softDeletes();
             $table->timestamps();
