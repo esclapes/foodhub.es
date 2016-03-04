@@ -7,21 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
 
-    protected $price_value;
-    protected $price_amount;
-    protected $price_unit;
-    protected $step_amount;
-    protected $step_unit;
-
-    protected $appends = [ 'price_value', 'price_amount', 'price_unit', 'step_amount', 'step_unit' ];
-
-
     public function __construct($attributes = array())
     {
-        parent::__construct(array_diff_key($attributes, self::pricingDefaults())); // Eloquent
+        parent::__construct(array_diff_key($attributes, ProductPrice::pricingDefaults())); // Eloquent
 
-        $pricing = array_intersect_key($attributes, self::pricingDefaults());
-        $this->setPricing($pricing);
+        $pricing = array_intersect_key($attributes, ProductPrice::pricingDefaults());
+        $this->setPrice($pricing);
     }
 
     /**
@@ -29,7 +20,11 @@ class Product extends Model
      */
     public function orders()
     {
-        return $this->belongsToMany(Order::class)->withPivot('price_value', 'price_amount', 'price_unit', 'step_amount', 'step_unit')->withTimestamps();
+        return $this->hasManyThrough(Order::class, ProductPrice::class);
+    }
+
+    public function prices() {
+        return $this->hasMany(ProductPrice::class);
     }
 
     public function lastOrder() {
@@ -37,7 +32,7 @@ class Product extends Model
     }
 
     public function lastPricing() {
-        return $this->lastOrder() ? $this->lastOrder()->pivot->toArray() : [];
+        return $this->prices()->orderBy('id', 'desc')->first() ? $this->prices()->orderBy('id', 'desc')->first()->toArray() : [];
     }
 
     public function getPricingAttribute()
@@ -51,48 +46,17 @@ class Product extends Model
         ];
     }
 
-    public function getPriceValueAttribute() {
-        return $this->price_value;
-    }
-
-    public function getPriceAmountAttribute() {
-        return $this->price_amount;
-    }
-
-    public function getPriceUnitAttribute() {
-        return $this->price_unit;
-    }
-
-    public function getStepUnitAttribute() {
-        return $this->step_unit ?: $this->price_unit;
-    }
-
-    public function getStepAmountAttribute() {
-        return $this->step_amount ?: $this->price_amount;
-    }
-
-    public static function pricingDefaults()
+    public function setPrice($values = [])
     {
-        return [
-            'price_value' => 1,
-            'price_amount' => 1,
-            'price_unit' => 'ud.',
-            'step_unit' => null,
-            'step_amount' => null
-        ];
-    }
+        $pricing = array_merge(ProductPrice::pricingDefaults(), $this->lastPricing(), $values);
 
-    public function setPricing($values = [])
-    {
-        $pricing = array_merge(self::pricingDefaults(), $this->lastPricing(), $values);
+        if(empty($pricing['order_id'])) {
+            $pricing['order_id'] = $this->lastOrder()->id;
+        }
 
-        $this->price_value = $pricing['price_value'];
-        $this->price_amount = $pricing['price_amount'];
-        $this->price_unit = $pricing['price_unit'];
-        $this->step_amount = $pricing['step_amount'];
-        $this->step_unit = $pricing['step_unit'];
+        $price = new ProductPrice($pricing);
 
-        return $this;
+        return $this->prices()->save($price);
 
     }
 
