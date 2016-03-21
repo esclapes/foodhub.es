@@ -26,6 +26,9 @@ class Order extends Model
         return $this->belongsToMany(Product::class)->withPivot('price_value', 'price_amount', 'price_unit', 'step_amount', 'step_unit')->withTimestamps();
     }
 
+    public function shares() {
+        return $this->hasMany(Share::class);
+    }
     /**
      * Scope a query to only include open orders.
      *
@@ -80,14 +83,13 @@ class Order extends Model
     public function getShareItem ($amount, $id) {
 
         $product = $this->products()->find($id);
+
         $newItem = [
             'product_id' => $id,
             'amount' => $amount,
             'price' => $product->getItemPrice($amount),
-            'unit' => $product->step_unit
+            'unit' => $product->pivot->step_unit
         ];
-        dd($newItem);
         return new ShareItem($newItem);
     }
-
 }

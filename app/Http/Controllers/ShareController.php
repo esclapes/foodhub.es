@@ -45,10 +45,9 @@ class ShareController extends Controller
         $share->save();
 
         $shareItems = $order->getShareItems($request->input('products'));
-        dd($shareItems);
         $share->items()->saveMany($shareItems);
 
-        dd($share);
+        return redirect()->action('ShareController@show', [$order->id, $share->id]);
     }
 
     /**
@@ -57,9 +56,12 @@ class ShareController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($order_id, $share_id)
     {
-        //
+        $share = Share::with(['items'])->find($share_id);
+        $order = Order::find($order_id);
+
+        return view('order.share.show', compact('share', 'order'));
     }
 
     /**

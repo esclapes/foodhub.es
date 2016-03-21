@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Order;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -48,7 +49,8 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        return view('order.show');
+        $order = Order::with('shares')->find($id);
+        return view('order.show', compact('order'));
     }
 
     /**

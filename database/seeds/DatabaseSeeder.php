@@ -1,5 +1,6 @@
 <?php
 
+use App\Product;
 use App\Share;
 use App\User;
 use Illuminate\Database\Seeder;
@@ -44,7 +45,7 @@ class DatabaseSeeder extends Seeder
         $reader = Reader::createFromPath(base_path('resources/import/products.csv'));
         $products = collect(iterator_to_array($reader->fetchAssoc()));
         $products->transform(function($item, $key){
-            return new App\Product($item);
+            return Product::createFromCSV($item);
         });
 
         $user->products()->saveMany($products);
@@ -66,6 +67,11 @@ class DatabaseSeeder extends Seeder
             foreach($users->random(6)->values()->all() as $user ) {
                 $share = new Share(['email' => $user->email, 'order_id' => $order->id]);
                 $share->save();
+//                $items = (array) collect($order->products)->random(5)->map(function($item, $index){
+//                    return [$item->id => rand(1, 7) * $item->pivot->step_amount];
+//                });
+//                $items = $order->getShareItems($items);
+//                $share->items()->saveMany($items);
             }
 
         }
