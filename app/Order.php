@@ -21,9 +21,9 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function products()
+    public function priceList()
     {
-        return $this->belongsToMany(Product::class)->withPivot('price_value', 'price_amount', 'price_unit', 'step_amount', 'step_unit')->withTimestamps();
+        return $this->hasMany(ProductPrice::class);
     }
 
     public function shares() {
@@ -42,30 +42,30 @@ class Order extends Model
     }
 
     /**
-     * @param $product
+     * @param $product_price
      */
-    public function addProduct($product)
+    public function addProduct($product_price)
     {
 
-        if ( !($product instanceof Product) ) {
+        if ( !($product_price instanceof ProductPrice) ) {
             throw new InvalidArgumentException;
         }
 
-        return $this->products()->save($product, $product->pricing);
+        return $this->priceList()->save($product_price);
 
     }
 
     /**
-     * @param array $products
+     * @param array $product_prices
      */
-    public function addProducts($products)
+    public function addProducts($product_prices)
     {
 
-        if ( !is_array($products) && !($products instanceof Collection) ) {
+        if ( !is_array($product_prices) && !($product_prices instanceof Collection) ) {
             throw new InvalidArgumentException;
         }
 
-        return $this->products()->saveMany($products);
+        return $this->priceList()->saveMany($product_prices);
 
     }
 

@@ -2,6 +2,7 @@
 
 use App\Order;
 use App\Product;
+use App\ProductPrice;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -28,7 +29,7 @@ class NewOrderTest extends TestCase
         $reader = Reader::createFromPath(base_path('resources/import/products.csv'));
         $products = collect(iterator_to_array($reader->fetchAssoc()));
         $products->transform(function($item, $key){
-            return new Product($item);
+            return new ProductPrice($item);
         });
         $this->user->products()->saveMany($products);
         // Not all products are available in orders, here we randomly choose 10 products
@@ -48,7 +49,7 @@ class NewOrderTest extends TestCase
         $this->visit('/o/' . $this->order->getRouteKey())
             ->see($this->order->title)
             ->see($this->order->description)
-            ->see($this->order->products->first()->name);
+            ->see($this->order->productList()->first()->name);
     }
 
 
