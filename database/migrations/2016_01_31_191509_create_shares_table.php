@@ -21,7 +21,7 @@ class CreateSharesTable extends Migration
             $table->softDeletes();
             $table->timestamps();
 
-            //$table->unique(['order_id', 'email']);
+            $table->unique(['order_id', 'email']);
         });
     }
 

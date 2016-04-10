@@ -17,7 +17,12 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->string('origin')->nullable();
             $table->string('category')->nullable();
-            $table->integer('user_id')->unsigned();
+            $table->integer('group_id')->unsigned();
+            $table->unsignedInteger('price_value')->nullable();
+            $table->unsignedInteger('price_amount')->nullable();
+            $table->string('price_unit')->nullable();
+            $table->unsignedInteger('step_amount')->nullable();
+            $table->string('step_unit')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

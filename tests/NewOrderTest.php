@@ -1,5 +1,6 @@
 <?php
 
+use App\Group;
 use App\Order;
 use App\Product;
 use App\ProductPrice;
@@ -21,17 +22,17 @@ class NewOrderTest extends TestCase
 
         Model::unguard();
 
-        $this->user = factory(User::class)->create();
+        $this->group = factory(Group::class)->create();
 
-        $this->order = factory(Order::class)->create(['status' => Order::OPEN, 'user_id' => $this->user->id]);
+        $this->order = factory(Order::class)->create(['status' => Order::OPEN, 'group_id' => $this->group->id]);
 
         // We create products from a real csv
         $reader = Reader::createFromPath(base_path('resources/import/products.csv'));
         $products = collect(iterator_to_array($reader->fetchAssoc()));
         $products->transform(function($item, $key){
-            return new ProductPrice($item);
+            return new Product($item);
         });
-        $this->user->products()->saveMany($products);
+        $this->group->products()->saveMany($products);
         // Not all products are available in orders, here we randomly choose 10 products
         // and attach them to the user orders
 
@@ -49,7 +50,7 @@ class NewOrderTest extends TestCase
         $this->visit('/o/' . $this->order->getRouteKey())
             ->see($this->order->title)
             ->see($this->order->description)
-            ->see($this->order->productList()->first()->name);
+            ->see($this->order->products()->first()->name);
     }
 
 

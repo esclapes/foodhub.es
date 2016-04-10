@@ -157,6 +157,8 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         AdamWathan\BootForms\BootFormsServiceProvider::class,
+        Mpociot\Teamwork\TeamworkServiceProvider::class,
+        Cocur\Slugify\Bridge\Laravel\SlugifyServiceProvider::class,
 
     ],
 
@@ -204,6 +206,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
         'BootForm'  => AdamWathan\BootForms\Facades\BootForm::class,
+        'Slugify'   => Cocur\Slugify\Bridge\Laravel\SlugifyFacade::class,
 
     ],
 

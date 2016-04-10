@@ -14,7 +14,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned()->notNull()->index();
+            $table->integer('group_id')->unsigned()->notNull()->index();
             $table->string('title');
             $table->string('description');
             $table->dateTime('closing_at');

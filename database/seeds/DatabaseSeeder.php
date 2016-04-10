@@ -18,11 +18,13 @@ class DatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        $admin = factory(App\User::class, 'manager')->create();
+        $user = factory(App\User::class)->create();
 
-        $this->attachOrdersAndProducts($admin);
+        $group = factory(App\Group::class)->create(['owner_id' => $user->id]);
 
-        $this->generateOrderSharesFor($admin);
+        $this->attachOrdersAndProducts($group);
+
+        $this->generateOrderSharesFor($group);
 
         Model::reguard();
     }
@@ -32,48 +34,48 @@ class DatabaseSeeder extends Seeder
      * we use this function to populate the data. Only products are real
      * the rest are stubed with factories.
      *
-     * @param $user
+     * @param $group
      */
-    protected function attachOrdersAndProducts($user){
+    protected function attachOrdersAndProducts($group){
 
         $faker = Faker\Factory::create();
 
-        $user->orders()->saveMany(factory(App\Order::class, 5)->make(['user_id' => $user->id]));
-        $user->orders()->saveMany(factory(App\Order::class, 3)->make(['status' => App\Order::OPEN, 'user_id' => $user->id]));
+        $group->orders()->saveMany(factory(App\Order::class, 5)->make(['group_id' => $group->id]));
+        $order=factory(App\Order::class)->make(['status' => App\Order::OPEN, 'group_id' => $group->id]);
+        $group->orders()->save($order);
 
         // We create products from a real csv
         $reader = Reader::createFromPath(base_path('resources/import/products.csv'));
         $products = collect(iterator_to_array($reader->fetchAssoc()));
         $products->transform(function($item, $key){
-            return Product::createFromCSV($item);
+            return new Product($item);
         });
 
-        $user->products()->saveMany($products);
+        $group->addProducts($products);
 
         // Not all products are available in orders, here we randomly choose 10 products
         // and attach them to the user orders
-        foreach($user->orders as $key => $order){
-            foreach ($products->random(10)->values()->all() as $product) {
+        foreach($group->orders as $key => $order){
+            foreach ($group->products->random(10)->values()->all() as $product) {
                 $order->addProduct($product);
             }
         }
 
     }
 
-    private function generateOrderSharesFor($admin)
+    private function generateOrderSharesFor($group)
     {
-        $users = collect(User::where('is_manager', 0)->get());
-        foreach($admin->orders as $order) {
+        $users = User::all();
+        foreach($group->orders as $order) {
             foreach($users->random(6)->values()->all() as $user ) {
                 $share = new Share(['email' => $user->email, 'order_id' => $order->id]);
                 $share->save();
-//                $items = (array) collect($order->products)->random(5)->map(function($item, $index){
-//                    return [$item->id => rand(1, 7) * $item->pivot->step_amount];
-//                });
-//                $items = $order->getShareItems($items);
-//                $share->items()->saveMany($items);
+                $items = $order->products->random(5)->map(function($item, $index){
+                    return [$item->id => rand(1, 7) * $item->pivot->step_amount];
+                });
+                $items = $order->getShareItems($items->toArray());
+                $share->items()->saveMany($items);
             }
-
         }
     }
 }

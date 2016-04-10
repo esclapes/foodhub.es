@@ -12,7 +12,12 @@ class Product extends Model
      */
     public function orders()
     {
-        return $this->belongsToMany(Order::class)->withPivot('price_value', 'price_amount', 'price_unit', 'step_amount', 'step_unit')->withTimestamps();
+        return $this->belongsToMany(Order::class, 'product_prices')->withPivot('price_value', 'price_amount', 'price_unit', 'step_amount', 'step_unit')->withTimestamps();
+    }
+
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
     }
 
     public function lastOrder() {
@@ -30,10 +35,6 @@ class Product extends Model
         return  $amount * $this->pivot->price_value / $this->pivot->price_amount;
     }
 
-    public static function createFromCSV($item) {
-        return new self(array_diff_key($item, self::pricingDefaults()));
-    }
-
     public static function pricingDefaults()
     {
         return [
@@ -46,8 +47,16 @@ class Product extends Model
     }
 
     public function getPricingAttribute() {
-        return $this->
+        return $this->lastPricing() + self::pricingDefaults();
     }
 
+    public function newPivot(Model $parent, array $attributes, $table, $exists)
+    {
+        if ($parent instanceof Order) {
+            return new ProductPrice($parent, $attributes, $table, $exists);
+        }
+
+        return parent::newPivot($parent, $attributes, $table, $exists);
+    }
 
 }

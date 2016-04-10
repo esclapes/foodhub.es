@@ -16,19 +16,20 @@ class Order extends Model
 
     protected $fillable = ['title', 'description', 'closin_at'];
 
-    public function user()
+    public function group()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Group::class);
     }
 
-    public function priceList()
+    public function products()
     {
-        return $this->hasMany(ProductPrice::class);
+        return $this->belongsToMany(Product::class, 'product_prices')->withPivot('price_value', 'price_amount', 'price_unit', 'step_amount', 'step_unit')->withTimestamps();
     }
 
     public function shares() {
         return $this->hasMany(Share::class);
     }
+
     /**
      * Scope a query to only include open orders.
      *
@@ -42,21 +43,22 @@ class Order extends Model
     }
 
     /**
-     * @param $product_price
+     * @param $product
      */
-    public function addProduct($product_price)
+    public function addProduct($product)
     {
 
-        if ( !($product_price instanceof ProductPrice) ) {
+        if ( !($product instanceof Product) ) {
             throw new InvalidArgumentException;
         }
 
-        return $this->priceList()->save($product_price);
+        return $this->products()->save($product);
 
     }
 
     /**
      * @param array $product_prices
+     * @return array
      */
     public function addProducts($product_prices)
     {
@@ -65,22 +67,22 @@ class Order extends Model
             throw new InvalidArgumentException;
         }
 
-        return $this->priceList()->saveMany($product_prices);
+        return $this->products()->saveMany($product_prices);
 
     }
 
     public function getShareItems(array $items)
     {
-        $items = collect(array_filter($items));
 
-        $products = $items->map(function ($amount, $id) {
-            return $this->getShareItem($amount, $id);
-        });
+      $items = collect(array_filter($items));
 
-        return $products;
+      return $items->map(function ($item) {
+        return $this->getShareItem(key($item), array_pop($item));
+      });
+
     }
 
-    public function getShareItem ($amount, $id) {
+    public function getShareItem ($id, $amount) {
 
         $product = $this->products()->find($id);
 
@@ -91,5 +93,15 @@ class Order extends Model
             'unit' => $product->pivot->step_unit
         ];
         return new ShareItem($newItem);
+    }
+
+
+    public function newPivot(Model $parent, array $attributes, $table, $exists)
+    {
+        if ($parent instanceof Product) {
+            return new ProductPrice($parent, $attributes, $table, $exists);
+        }
+
+        return parent::newPivot($parent, $attributes, $table, $exists);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Group;
 use App\Order;
 use App\User;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -52,7 +53,8 @@ class LandingTest extends TestCase
         $this->visit('/')
             ->dontSeeLink(trans('dashboard.name'));
 
-        $user->makeManager();
+        $group = factory(Group::class)->create(['owner_id' => $user->id]);
+        $user->joinGroup($group);
 
         $this->visit('/')
             ->seeLink(trans('dashboard.name'), action('DashboardController@index'));

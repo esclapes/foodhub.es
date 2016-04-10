@@ -1,5 +1,6 @@
 <?php
 
+use App\Group;
 use App\User;
 use App\Order;
 use App\Product;
@@ -15,7 +16,7 @@ class OrderTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->user = factory(User::class)->create();
+        $this->group = factory(Group::class)->create();
     }
 
     /** @test */
@@ -34,11 +35,11 @@ class OrderTest extends TestCase
     }
 
     /** @test */
-    public function it_has_an_owner_user()
+    public function it_belongs_to_a_team()
     {
-        $order = factory(Order::class)->create(['user_id' => $this->user->id]);
+        $order = factory(Order::class)->create(['group_id' => $this->group->id]);
 
-        $this->assertEquals($this->user->id, $order->user->id);
+        $this->assertEquals($this->group->id, $order->group->id);
     }
 
     /** @test */

@@ -54,7 +54,7 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-                                @if(Auth::user()->isManager())
+                                @if(Auth::user()->isOwner())
                                     <li><a href="{{ action('DashboardController@index') }}">{{ trans('dashboard.name') }}</a></li>
                                 @endif
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>{{ trans('auth.logout') }}</a></li>

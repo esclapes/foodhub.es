@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Mpociot\Teamwork\Traits\UserHasTeams;
 
 class User extends Authenticatable
 {
+
+    use UserHasTeams;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -24,24 +28,34 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function orders()
-    {
-        return $this->hasMany(Order::class);
+    /**
+     *
+     * Alias for teams
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function groups() {
+        return $this->teams();
     }
 
-    public function products()
-    {
-        return $this->hasMany(Product::class);
+    public function joinGroup($group){
+        $this->attachTeam($group);
     }
 
-    public function makeManager() {
-        $this->is_manager = TRUE;
-        return $this->save();
+    public function leaveGroup($group){
+        $this->detachTeam($group);
     }
 
-    public function isManager() {
-        return $this->is_manager;
+    /**
+     *
+     * TODO: change when implementing group roles
+     *
+     * uses trait to check if user is current team admin
+     *
+     * @return bool
+     */
+    public function isCurrentTeamAdmin() {
+        return $this->isOwnerOfTeam($this->currentTeam());
     }
-
 
 }
