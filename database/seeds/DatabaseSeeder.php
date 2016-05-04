@@ -70,10 +70,11 @@ class DatabaseSeeder extends Seeder
             foreach($users->random(6)->values()->all() as $user ) {
                 $share = new Share(['email' => $user->email, 'order_id' => $order->id]);
                 $share->save();
-                $items = $order->products->random(5)->map(function($item, $index){
-                    return [$item->id => rand(1, 7) * $item->pivot->step_amount];
-                });
-                $items = $order->getShareItems($items->toArray());
+                $items = [];
+                $order->products->random(5)->each(function($item){
+                    $items[$item->id] = rand(1, 7) * $item->pivot->step_amount;
+                }, array());
+                $items = $order->getShareItems($items);
                 $share->items()->saveMany($items);
             }
         }

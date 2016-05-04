@@ -13,6 +13,10 @@ class Share extends Model
         return $this->hasMany(ShareItem::class);
     }
 
+    public function order() {
+        return $this->belongsTo(Order::class);
+    }
+
     function getTotalAttribute() {
         $total = collect($this->items)->reduce(function($carry, $item) {
             return $carry + $item->price;

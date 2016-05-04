@@ -53,7 +53,7 @@ class NewOrderTest extends TestCase
             ->see($this->order->products()->first()->name);
     }
 
-
+    /** @test */
     public function it_fshows_a_open_orders_with_a_link()
     {
         $newOrders = factory(Order::class, 4)->create(['status' => Order::OPEN]);
@@ -65,8 +65,8 @@ class NewOrderTest extends TestCase
             ->seeLink($newOrders[3]->title, action('ShareController@create', $newOrders[3]->id));
     }
 
-
-    public function it_shows_a_dashboard_link_monly_to_managers()
+    /** @todo: change to team beased orders */
+    public function it_shows_a_dashboard_link_only_to_managers()
     {
         $user = factory(User::class)->create();
 

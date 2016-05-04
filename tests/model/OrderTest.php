@@ -1,12 +1,14 @@
 <?php
 
 use App\Group;
+use App\ShareItem;
 use App\User;
 use App\Order;
 use App\Product;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class OrderTest extends TestCase
 {
@@ -17,17 +19,18 @@ class OrderTest extends TestCase
     {
         parent::setUp();
         $this->group = factory(Group::class)->create();
+        $this->openOrder = factory(Order::class)->create(['status' => Order::OPEN]);
     }
 
     /** @test */
     public function it_can_return_open_orders()
     {
-        $openOrder1 = factory(Order::class)->create(['status' => Order::OPEN]);
+
 
         factory(Order::class)->create(['status' => Order::PENDING]);
         factory(Order::class)->create(['status' => Order::CLOSED]);
 
-        $this->assertEquals($openOrder1->id, Order::open()->first()->id);
+        $this->assertEquals($this->openOrder->id, Order::open()->first()->id);
         $this->assertEquals(1, Order::open()->count());
 
         factory(Order::class)->create(['status' => Order::OPEN]);
@@ -70,5 +73,37 @@ class OrderTest extends TestCase
 
     }
 
+    /** @test */
+    public function it_throws_if_a_share_item_do_not_match_to_order_products() {
+
+        $this->setExpectedException(ModelNotFoundException::class);
+
+        $product_amount = ['15' => '5'];
+        $this->openOrder->getShareItems($product_amount);
+    }
+
+    /** @test */
+    public function it_builds_share_items_based_on_form_input() {
+
+        $products = factory(Product::class, 5)->make(['group_id' => $this->group->id]);
+        $this->openOrder->products()->saveMany($products);
+
+
+        $product = $this->openOrder->products->first();
+        $amount = 10;
+
+        $input[$product->id] = $amount;
+
+        $share_items = $this->openOrder->getShareItems($input);
+
+        $item = $share_items->first();
+
+        $this->assertInstanceOf(ShareItem::class, $item);
+
+        $this->assertEquals($amount, $item->amount);
+
+        $this->assertEquals($item, $this->openOrder->getShareItem($product->id, $amount));
+
+    }
 
 }

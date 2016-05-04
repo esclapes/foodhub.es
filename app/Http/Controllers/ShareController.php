@@ -39,11 +39,13 @@ class ShareController extends Controller
      */
     public function store(Request $request, Order $order)
     {
-        //dd($request->input());
+        // @todo: request validation
+        // create a new share with contact information
         $share = new Share($request->only('email', 'phone', 'comments'));
         $share->order_id = $order->id;
         $share->save();
 
+        // attach the share items
         $shareItems = $order->getShareItems($request->input('products'));
         $share->items()->saveMany($shareItems);
 

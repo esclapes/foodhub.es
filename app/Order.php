@@ -4,6 +4,7 @@ namespace App;
 
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;
 
 class Order extends Model
@@ -23,7 +24,7 @@ class Order extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'product_prices')->withPivot('price_value', 'price_amount', 'price_unit', 'step_amount', 'step_unit')->withTimestamps();
+        return $this->belongsToMany(Product::class, 'product_prices')->withPivot('id', 'price_value', 'price_amount', 'price_unit', 'step_amount', 'step_unit')->withTimestamps();
     }
 
     public function shares() {
@@ -71,26 +72,39 @@ class Order extends Model
 
     }
 
+    /**
+     * @param array $items an array of share items with the product id as key and the amount as value
+     *                     like [$id => $value, ...]
+     * @return array of ShareItems
+     */
     public function getShareItems(array $items)
     {
+        // remove
+        $items = array_filter($items);
+        $keys = collect(array_keys($items));
 
-      $items = collect(array_filter($items));
-
-      return $items->map(function ($item) {
-        return $this->getShareItem(key($item), array_pop($item));
-      });
+        return $keys->map(function ($key) use ($items) {
+            return $this->getShareItem($key, $items[$key]);
+        });
 
     }
 
+
+    /**
+     * @param $id the id of a product
+     * @param $amount the amount of a given product
+     *
+     * @return ShareItem
+     *
+     * @throws ModelNotFoundException
+     */
     public function getShareItem ($id, $amount) {
 
-        $product = $this->products()->find($id);
+        $product = $this->products()->findOrFail($id);
 
         $newItem = [
-            'product_id' => $id,
+            'product_id' => $product->id,
             'amount' => $amount,
-            'price' => $product->getItemPrice($amount),
-            'unit' => $product->pivot->step_unit
         ];
         return new ShareItem($newItem);
     }
