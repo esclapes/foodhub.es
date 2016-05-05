@@ -23647,12 +23647,22 @@ var state = {
 
 var mutations = {
     UPDATE_AMOUNT: function UPDATE_AMOUNT(state, product, amount) {
-        state.selected = _lodash2.default.reject(state.selected, { id: product.id });
-        if (amount > 0) state.selected.push({
+
+        var match = _lodash2.default.find(state.selected, { 'id': product.id });
+        var item = {
             id: product.id,
             product: product,
             amount: amount
-        });
+        };
+
+        if (amount == 0) {
+            state.selected = _lodash2.default.reject(state.selected, { 'id': product.id });
+        } else if (match) {
+            var index = _lodash2.default.indexOf(state.selected, match);
+            state.selected.splice(index, 1, item);
+        } else {
+            state.selected.push(item);
+        }
     }
 };
 

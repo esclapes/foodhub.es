@@ -18,12 +18,24 @@ const state = {
 
 const mutations = {
     UPDATE_AMOUNT (state, product, amount) {
-        state.selected = _.reject(state.selected, {id: product.id});
-        if (amount > 0) state.selected.push({
+
+        const match = _.find(state.selected, { 'id': product.id });
+        const item = {
             id: product.id,
             product: product,
             amount: amount
-        });
+        };
+
+        if (amount == 0) {
+            state.selected = _.reject(state.selected, { 'id': product.id });
+        }
+        else if (match) {
+            const index = _.indexOf(state.selected, match);
+            state.selected.splice(index, 1, item);
+        }
+        else {
+            state.selected.push(item);
+        }
     }
 }
 
