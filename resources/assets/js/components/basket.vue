@@ -6,8 +6,7 @@
     <div class="row">
 
         <div class="list-group basket col-sm-8">
-            <basket-item v-for="product in products" :product="product"
-                         @update-amount="updateAmount" v-ref:product.id>
+            <basket-item v-for="product in products" :product="product">
         </div>
         <div class="col-sm-4">
             <p v-show="!selected.length">
@@ -66,16 +65,20 @@
 </template>
 
 <script>
-    var BasketItem = require('./basketItem.vue');
-    var _ = require('lodash');
+    import BasketItem from './basketItem.vue'
+    import { updateAmount } from '../vuex/actions'
+    import _ from 'lodash';
 
-    module.exports = {
-        data: function () {
-            return {
-                selected: []
-            };
+    export default {
+        vuex: {
+            getters: {
+                products: state => state.products,
+                selected: state => state.selected
+            },
+            actions: {
+                updateAmount
+            }
         },
-        props: ['products'],
         computed: {
             total: function () {
                 return this.selected.reduce(function (total, item) {
@@ -87,14 +90,6 @@
             }
         },
         methods: {
-            updateAmount: function (product, amount) {
-                this.selected = _.reject(this.selected, {id: product.id});
-                if (amount > 0) this.selected.push({
-                    id: product.id,
-                    product: product,
-                    amount: amount
-                });
-            },
             getSubtotal: function (item) {
                 return item.product.pivot.price_value * (item.amount / item.product.pivot.price_amount);
             }

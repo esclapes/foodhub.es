@@ -17,7 +17,7 @@
                     <input name="products[{{ product.id }}]"
                            class="basket-item__input input-small form-control"
                            type="number"
-                           v-model="amount"
+                           :value="amount"
                            number
                            readonly>
                     <span class="input-group-addon" id="basic-addon2">{{ product.pivot.step_unit }}</span>
@@ -43,30 +43,45 @@
 </template>
 
 <script>
-    module.exports = {
+    import { updateAmount } from '../vuex/actions';
+    import { store } from '../vuex/store';
+    import _ from 'lodash';
+
+    export default {
         props: {
             product: {
                 type: Object
             }
         },
-        data: function () {
-            return {
-                amount: 0
-            };
+        vuex: {
+            actions: {
+                updateAmount
+            },
+            getters: {
+                selected: function(state) {
+                    return state.selected;
+                }
+            }
+        },
+        computed: {
+            amount: function() {
+                const isSelected = _.find(this.selected, { 'id': this.product.id });
+                return isSelected ? isSelected.amount : 0;
+            }
         },
         methods: {
             increaseAmount: function () {
-                this.amount = this.amount + this.product.pivot.step_amount;
-                this.$dispatch('update-amount', this.product, this.amount);
+                const amount = this.amount + this.product.pivot.step_amount;
+                this.updateAmount(this.product, amount);
             },
             decreaseAmount: function () {
-                this.amount = (this.amount - this.product.pivot.step_amount) > 0 ? this.amount - this.product.pivot.step_amount : 0;
-                this.$dispatch('update-amount', this.product, this.amount);
+                const amount = (this.amount - this.product.pivot.step_amount) > 0 ? this.amount - this.product.pivot.step_amount : 0;
+                this.updateAmount(this.product, amount);
             },
             clearAmount: function () {
-                this.amount = 0;
-                this.$dispatch('update-amount', this.product, this.amount);
-            }
+                const amount = 0;
+                this.updateAmount(this.product, amount);
+            },
         }
     }
 </script>
