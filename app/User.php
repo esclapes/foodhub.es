@@ -30,7 +30,7 @@ class User extends Authenticatable
 
     /**
      *
-     * Alias for teams
+     * Alias for UserHasTeam::teams
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -38,12 +38,23 @@ class User extends Authenticatable
         return $this->teams();
     }
 
+
+    /**
+     * Alias for UserHasTeams::attachTeam
+     *
+     * @param $group
+     */
     public function joinGroup($group){
-        $this->attachTeam($group);
+        return $this->attachTeam($group);
     }
 
+    /**
+     * Alias for UserHasTeams::detachTeam
+     *
+     * @param $group
+     */
     public function leaveGroup($group){
-        $this->detachTeam($group);
+        return $this->detachTeam($group);
     }
 
     /**

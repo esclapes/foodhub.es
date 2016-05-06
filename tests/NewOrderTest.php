@@ -22,7 +22,11 @@ class NewOrderTest extends TestCase
 
         Model::unguard();
 
-        $this->group = factory(Group::class)->create();
+        $this->user = factory(User::class)->create();
+
+        $this->group = factory(Group::class)->create(['owner_id' => $this->user->id]);
+
+        $this->user->joinGroup($this->group);
 
         $this->order = factory(Order::class)->create(['status' => Order::OPEN, 'group_id' => $this->group->id]);
 
@@ -54,7 +58,7 @@ class NewOrderTest extends TestCase
     }
 
     /** @test */
-    public function it_fshows_a_open_orders_with_a_link()
+    public function it_shows_a_open_orders_with_a_link()
     {
         $newOrders = factory(Order::class, 4)->create(['status' => Order::OPEN]);
 
@@ -65,17 +69,20 @@ class NewOrderTest extends TestCase
             ->seeLink($newOrders[3]->title, action('ShareController@create', $newOrders[3]->id));
     }
 
-    /** @todo: change to team beased orders */
-    public function it_shows_a_dashboard_link_only_to_managers()
+    /** @test  */
+    public function it_shows_a_dashboard_link_to_group_owners()
     {
-        $user = factory(User::class)->create();
 
-        $this->be($user);
+        $other_user = factory(User::class)->create();
+
+        $this->be($other_user);
 
         $this->visit('/')
             ->dontSeeLink(trans('dashboard.name'));
 
-        $user->makeManager();
+        $this->be($this->user);
+
+        $this->assertTrue($this->user->isOwner());
 
         $this->visit('/')
             ->seeLink(trans('dashboard.name'), action('DashboardController@index'));
